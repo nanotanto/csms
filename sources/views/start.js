@@ -76,14 +76,11 @@ export default class StartView extends JetView{
 																{
 																	"rows": [
 																		{
-																			"value": 90,
-																			"minWidth": 0,
-																			"minHeight": 0,
-																			"view": "gage",
-																			"label": "CSMS",
-																			"color": "green",
-																			"placeholder": "%",
-																			"id": 1606814393040
+																			view:"justgage-chart",
+																			value:50,
+																			id:"gage1",
+																			label:"%",
+																			levelColors:[ "#ff0000", "#f9c802", "#a9d70b" ]
 																		},
 																		{
 																			"css": "webix_dark",
