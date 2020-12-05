@@ -7,7 +7,12 @@ export default class TopView extends JetView{
 			view:"toolbar",
 			css:"webix_dark", padding:{ left:8 },
 			elements:[
-				{ view:"label", label:"CSMS" }
+				{ view:"label", label:"CSMS Software" },
+				{ "icon": "wxi-user", "view": "icon", "height": 38, "width": 38,
+							click:()=>{
+								
+							}
+				}
 				/*wjet::Topbar*/
 			]
 		};
@@ -17,9 +22,9 @@ export default class TopView extends JetView{
 			width:180, layout:"y", select:true,
 			template:"<span style='padding:10px' class='webix_icon #icon#'></span> #value# ",
 			data:[
-				{ value:"DashBoard", id:"start", icon:"wxi-plus-square" },
-				{ value:"Data",		 id:"data",  icon:"wxi-columns" },
-				{ value:"Settings",  id:"settings",  icon:"wxi-pencil" },
+				{ value:"Dashboard", id:"dash", icon:"wxi-plus-square" },
+				{ value:"Resume Data",		 id:"data",  icon:"wxi-columns" },
+				{ value:"Evaluasi CSMS",  id:"evaluasi",  icon:"wxi-pencil" },
 				/*wjet::Menu*/
 			]
 		};

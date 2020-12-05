@@ -1,6 +1,6 @@
 import {JetView} from "webix-jet";
 
-export default class StartView extends JetView{
+export default class DashView extends JetView{
 	config(){
 		return {
 			rows:[
@@ -17,7 +17,7 @@ export default class StartView extends JetView{
 										{
 											"rows": [
 												{ "type": "header", "template": "Tanggal masuk dokumen", "view": "template", "id": 1606814393020 },
-												{ "url": "demo->5fc5b16624ab0800183ec60a", "view": "list", "id": 1606814393021 }
+												{ "url": "", "view": "list", "id": 1606814393021 }
 											],
 											"id": 1606814393019,
 											"height": 150
@@ -25,14 +25,14 @@ export default class StartView extends JetView{
 										{
 											"rows": [
 												{ "type": "header", "template": "Nama Perusahaan", "view": "template", "id": 1606814393023 },
-												{ "url": "demo->5fc5b1f324ab0800183ec62b", "view": "list", "id": 1606814393024 }
+												{ "url": "", "view": "list", "id": 1606814393024 }
 											],
 											"id": 1606814393022
 										},
 										{
 											"rows": [
 												{ "type": "header", "template": "Bagian atau Elemen", "view": "template", "id": 1606814393026 },
-												{ "url": "demo->5fc5b26524ab0800183ec641", "view": "list", "id": 1606814393027 }
+												{ "url": "", "view": "list", "id": 1606814393027 }
 											],
 											"id": 1606814393025,
 											"height": 200
@@ -134,7 +134,7 @@ export default class StartView extends JetView{
 															"id": 1606814393050
 														},
 														{
-															"url": "demo->5fc60a1924ab0800183ed92d",
+															"url": "",
 															"columns": [
 																{ "id": "elemen", "header": "Elemen", "fillspace": true, "sort": "string", "hidden": false },
 																{
@@ -167,7 +167,7 @@ export default class StartView extends JetView{
 															"id": 1606814393054
 														},
 														{
-															"url": "demo->5fc5a3c024ab0800183ec2a8",
+															"url": "",
 															"type": "barH",
 															"xAxis": "#value#",
 															"yAxis": {},
@@ -187,7 +187,7 @@ export default class StartView extends JetView{
 															"id": 1606814393057
 														},
 														{
-															"url": "demo->5fc5a3c024ab0800183ec2a8",
+															"url": "",
 															"type": "bar",
 															"xAxis": "#value#",
 															"yAxis": {},
@@ -210,7 +210,7 @@ export default class StartView extends JetView{
 										{
 											"rows": [
 												{ "type": "header", "template": "Tanggal masuk dokumen", "view": "template", "id": 1606814393061 },
-												{ "url": "demo->5fc5d58224ab0800183ecb1c", "view": "list", "id": 1606814393062 }
+												{ "url": "", "view": "list", "id": 1606814393062 }
 											],
 											"id": 1606814393060,
 											"height": 250
@@ -218,7 +218,7 @@ export default class StartView extends JetView{
 										{
 											"rows": [
 												{ "type": "header", "template": "Nomor Klausul CSMS", "view": "template", "id": 1606814393064 },
-												{ "url": "demo->5fc5d5e924ab0800183ecb31", "view": "list", "id": 1606814393065 }
+												{ "url": "", "view": "list", "id": 1606814393065 }
 											],
 											"id": 1606814393063
 										}
