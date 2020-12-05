@@ -9,7 +9,7 @@ export default class EvaluasiView extends JetView{
 					"css": "webix_dark",
 					"view": "toolbar",
 					"cols": [
-						{ "view": "label", "label": "Daftar Kontraktor" },
+						{ "view": "label", "label": "Evaluasi CSMS" },
 						{ "view": "button", "label": "Tambah Kontraktor Baru", "autowidth": true,
 							click:() => this.win.showWindow()
 						}
@@ -29,7 +29,7 @@ export default class EvaluasiView extends JetView{
 					"view": "toolbar",
 					"height": 44,
 					"cols": [
-						{ "view": "label", "label": "Evaluasi CSMS" },
+						{ "view": "label", "label": "" },
 						{ "view": "button", "label": "Penilaian Elemen CSMS", "autowidth": true,
 							click:()=>{
                                 //var id = $$("tbl_kontraktor").getSelectedId();

@@ -6,6 +6,7 @@ export default class DataView extends JetView{
 		return {
 			"id": 1606861256857,
 			"rows": [
+				{ type:"header", template:"Resume Data"},
 				{
 					"cols": [
 						{
