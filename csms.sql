@@ -213,16 +213,16 @@ REPLACE INTO `nilai` (`id`, `subelemen_id`, `nilai`, `angka`, `keterangan`) VALU
 -- Dumping structure for table csms.perusahaan
 CREATE TABLE IF NOT EXISTS `perusahaan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama_perusahaan` varchar(50) DEFAULT NULL,
+  `nama` varchar(50) DEFAULT NULL,
   `alamat` varchar(50) DEFAULT NULL,
   `telepon` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `nama_perusahaan` (`nama_perusahaan`)
+  UNIQUE KEY `nama` (`nama`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table csms.perusahaan: 4 rows
 /*!40000 ALTER TABLE `perusahaan` DISABLE KEYS */;
-REPLACE INTO `perusahaan` (`id`, `nama_perusahaan`, `alamat`, `telepon`) VALUES
+REPLACE INTO `perusahaan` (`id`, `nama`, `alamat`, `telepon`) VALUES
 	(1, 'PT Tripatra Engineering', NULL, NULL),
 	(2, 'PT Buana Megah Teknik', NULL, NULL),
 	(3, 'PT Kaltimex Lestari Makmur', NULL, NULL),

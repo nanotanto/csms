@@ -1,3 +1,4 @@
+import { $$ } from "webix";
 import {JetView} from "webix-jet";
 
 export default class TambahWinView extends JetView{
@@ -16,20 +17,34 @@ export default class TambahWinView extends JetView{
                             { "view": "label", "label": "Tambah Kontraktor Baru" }
                         ]
                     },
-                    { "autoheight": false, "view": "form", "type": "wide", "elementsConfig": { "required": false, "labelPosition": "top" },
+                    { "autoheight": false, "view": "form", "type": "wide", "elementsConfig": { "required": true, "labelPosition": "top" },
                         "rows": [
-                            { "view": "text", "label": "Nama Perusahaan", "name": "name", "id": 1607174370560 },
-                            { "view": "text", "label": "Alamat", "name": "email", "id": 1607174370561 },
-                            { "label": "Telepon/ Fax", "view": "text", "id": 1607174370562 },
+                            { name:"nama", "view": "text", "label": "Nama Perusahaan", validate:"isNotEmpty"},
+                            { name:"alamat", "view": "text", "label": "Alamat", validate:"isNotEmpty"},
+                            { name:"telepon", "label": "Telepon/ Fax", "view": "text", validate:"isNotEmpty"},
                             {
-                                "cols": [
-                                    { "view": "spacer" },
-                                    { "view": "button", "css": "webix_primary", "label": "Save", "id": 1607174370563 },
-                                    { "view": "spacer" }
+                                cols:[
+                                    { id:"btn_simpan","view": "button", "css": "webix_primary", "label": "Simpan", click:function(){
+                                                                                
+                                        var form = this.getFormView();
+                                        if (form.validate()){
+                                            var data = form.getValues();
+                                                webix.ajax().post("http://localhost:8000/perusahaan/save", data).then(() => webix.message("Kontraktor baru sudah di tambah"));
+
+                                            form.clear();
+
+                                        }                                    
+                                        else
+                                            webix.message({ type:"error", text:"Form data is invalid" });
+                                    }},{gravity:1}
                                 ]
                             }
                         ],
-                        "id": 1607174370559
+                        rules:{
+                        "nama":webix.rules.isNotEmpty,
+                        "alamat":webix.rules.isNotEmpty,
+                        "telepon":webix.rules.isNotEmpty
+                        },
                     }
                 ],
                 "id": 1607174370558

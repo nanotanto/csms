@@ -1,5 +1,5 @@
 import {JetView} from "webix-jet";
-import TambahWinView from "views/tambahWin"
+import TambahWinView from "views/tambahWin";
 
 export default class EvaluasiView extends JetView{
 	config(){
@@ -9,40 +9,62 @@ export default class EvaluasiView extends JetView{
 					"css": "webix_dark",
 					"view": "toolbar",
 					"cols": [
-						{ "view": "label", "label": "Evaluasi CSMS" },
+						{ id:"lb","view": "label", "label": "Evaluasi CSMS" },
 						{ "view": "button", "label": "Tambah Kontraktor Baru", "autowidth": true,
-							click:() => this.win.showWindow()
+							click:() => this.app.show("/top/tambah")
+							//click:() => this.win.showWindow();
+							
 						}
 					]
 				},
-				{
-					"url": "",
+				{	
+					id:"tbl_perusahaan",
+					"view": "datatable",
 					"columns": [
-						{ "id": "name", "header": "Nama Perusahaan", "fillspace": true, "sort": "string", "hidden": false },
+						{ "id": "nama", "header": "Nama Perusahaan", "fillspace": true, "sort": "string", "hidden": false },
 						{ "id": "alamat", "header": "Alamat", "sort": "string", "fillspace": true, "hidden": false },
-						{ "id": "telepon", "header": "Telepon/ Fax", "sort": "string", "fillspace": false, "hidden": false }
-					],
-					"view": "datatable"
-				},
-				{
-					"css": "webix_dark",
-					"view": "toolbar",
-					"height": 44,
-					"cols": [
-						{ "view": "label", "label": "" },
-						{ "view": "button", "label": "Penilaian Elemen CSMS", "autowidth": true,
-							click:()=>{
-                                //var id = $$("tbl_kontraktor").getSelectedId();
-								//this.app.show("/top/penilaian?id="+id);
-								this.app.show("/top/penilaian?id=");
+						{ "id": "telepon", "header": "Telepon/ Fax", "sort": "string", "fillspace": false, "hidden": false, width:200 },
+						{ id:"penilaian",	header:"", width:150,
+							template:function(obj){ 
+							return "<div class='webix_el_button'><button class='penilaian'> Penilaian Elemen</button></div>";
 							}
 						}
-					]
-				}
+					],
+					"url": "http://localhost:8000/perusahaan",
+					select:true,
+					onClick:{
+						penilaian:function(ev, id, html){
+						 	this.$scope.show("/top/penilaian?id="+id);
+						}
+					  },
+					on:{
+						"onAfterSelect":function(id){
+							// var item = this.getSelectedItem();
+							// var pt = item.nama;
+							// $$('btn_penilaian').enable();
+							// $$('label_pt').setValue('Nama Kontraktor : ' + pt);
+						}
+					}
+				},
+				// {
+				// 	"css": "webix_dark",
+				// 	"view": "toolbar",
+				// 	"cols": [
+				// 		{ id:"btn_penilaian", "view": "button", "label": "Penilaian Elemen CSMS", "autowidth": true, disabled:true,
+				// 			click:()=>{
+                //                 //var id = $$("tbl_kontraktor").getSelectedId();
+				// 				//this.app.show("/top/penilaian?id="+id);
+				// 				this.app.show("/top/penilaian?id=");
+				// 			}
+				// 		},
+				// 		{ id:"label_pt", "view": "label", value:""},
+				// 	]
+				// }
 			]
 		}
 	}
     init(){
-        this.win = this.ui(TambahWinView);
+		this.win = this.ui(TambahWinView);
+		//$$("tbl_perusahaan").load("http://localhost:8000/perusahaan");
     }
 }

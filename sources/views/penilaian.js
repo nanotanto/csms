@@ -9,20 +9,20 @@ export default class EvaluasiView extends JetView{
 					"view": "toolbar",
 					"cols": [
 						{ "view": "label", "label": "Evaluasi CSMS" },
-						{ "icon": "wxi-close", "view": "icon", "height": 38, "width": 38,
+						{ "icon": "wxi-close", "view": "icon", "width": 38,
 							click:()=>{
 								this.app.show("/top/evaluasi")
 							}
 						}
 					]
 				},
-				{ "autoheight": true, "view": "form", "elementsConfig": { "required": false, "labelPosition": "top" },
+				{ id:"form_perusahaan","autoheight": true, "view": "form", "elementsConfig": { "required": false, "labelPosition": "top" },
 					"rows": [
 						{
 							"cols": [
-								{ "view": "text", "label": "Nama Perusahaan", "name": "name" },
-								{ "label": "Alamat", "view": "text", "height": 0 },
-								{ "label": "Telepon/ Fax", "view": "text", "height": 0 }
+								{ name:"nama", "view": "text", "label": "Nama Perusahaan", readonly:true},
+								{ name:"alamat", "label": "Alamat", "view": "text", readonly:true },
+								{ name:"telepon", "label": "Telepon/ Fax", "view": "text", readonly:true }
 							]
 						}
 					]
@@ -71,4 +71,8 @@ export default class EvaluasiView extends JetView{
 			"type": "clean"
 		}
 	}
+    urlChange(view, url){
+        var id = url[0].params.id;
+        $$("form_perusahaan").load("http://localhost:8000/perusahaan/show/"+id);
+    }
 }
