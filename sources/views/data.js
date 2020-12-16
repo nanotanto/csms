@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
-//import {data} from "models/records";
+
+var routeUrl = window.location.protocol +"//"+ window.location.hostname+window.location.pathname;
 
 export default class DataView extends JetView{
 	config(){
@@ -57,16 +58,34 @@ export default class DataView extends JetView{
 							"id": 1606814393018
 						},
 						{
-							"url": "",
+							"id":"tbl_resume",
+							scheme:{
+								$init:function(row){
+									row.elemen_id = (row.elemen || "") && row.elemen.penjelasan
+									row.subelemen_id = (row.subelemen || "") && row.subelemen.bagian
+									row.subelemen_id_name = (row.subelemen || "") && row.subelemen.penjelasan
+									row.score_id = (row.score || "") && row.score.poin							
+								}
+							},
 							"columns": [
-								{ "id": "title", "header": "Title", "fillspace": true, "sort": "string" },
-								{ "id": "year", "header": "Year", "sort": "string" },
-								{ "id": "votes", "header": "Votes", "sort": "string" },
-								{ "id": "rating", "header": "Rating", "sort": "string" },
-								{ "id": "rank", "header": "Rank", "sort": "string" },
-								{ "id": "category", "header": "Category", "sort": "string" }
+								{ "id": "perusahaan_id", "header": "Nama Perusahaan", "fillspace": false, "sort": "string", "hidden": true },
+								{ "id": "elemen_id", "header": "Elemen", "sort": "string", "fillspace": false, "hidden": false },
+								{ "id": "subelemen_id", "header": "", "sort": "string", "fillspace": false, "hidden": false },
+								{ "id": "subelemen_id_name", "header": "Sub Elemen", "sort": "string", "fillspace": false, "hidden": false },
+								{ "id": "kesimpulan", "header": "Kesimpulan", "sort": "string", "fillspace": true, "hidden": false },
+								{ "id": "score_id", "header": "Nilai", "fillspace": false, "hidden": false }
 							],
-							"view": "datatable"
+							"view": "datatable",
+							ready:function(){ 
+								this.adjustColumn("elemen_id"); 
+								this.adjustColumn("subelemen_id"); 
+								this.adjustColumn("subelemen_id_name"); 
+								this.adjustColumn("tgl_masuk"); 
+								this.adjustColumn("tgl_target"); 
+								this.adjustColumn("tgl_selesai"); 
+								this.adjustColumn("kesimpulan"); 
+								this.adjustColumn("score_id");
+							},
 						},
 						{
 							"width": 250,
@@ -98,5 +117,6 @@ export default class DataView extends JetView{
 	}
 	init(view){
 		//view.parse(data);
+		$$("tbl_resume").load(routeUrl+"evaluasi");
 	}
 }

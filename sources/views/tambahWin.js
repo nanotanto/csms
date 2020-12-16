@@ -29,7 +29,7 @@ export default class TambahWinView extends JetView{
                                         var form = this.getFormView();
                                         if (form.validate()){
                                             var data = form.getValues();
-                                                webix.ajax().post("http://localhost:8000/perusahaan/save", data).then(() => webix.message("Kontraktor baru sudah di tambah"));
+                                                webix.ajax().post("/perusahaan/save", data).then(() => webix.message("Kontraktor baru sudah di tambah"));
 
                                             form.clear();
 

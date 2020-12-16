@@ -20,4 +20,20 @@ class PerusahaanController extends Controller
     {
         Perusahaan::create($request->all());
     }
+
+    public function update(Request $request, $id){
+        $data = Perusahaan::findOrFail($id);
+        $data->fill($request->all());
+        $data->save();
+    }
+
+    public function newData(){
+        $data = Perusahaan::latest()->first();
+        return response()->json($data);
+    }
+
+    public function delete(Request $request, $id){
+        $data = Perusahaan::find($id);
+        $data->delete();
+    }
 }

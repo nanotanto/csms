@@ -1,5 +1,7 @@
 import {JetView} from "webix-jet";
 
+var routeUrl = window.location.protocol +"//"+ window.location.hostname+window.location.pathname;
+
 export default class EvaluasiView extends JetView{
 	config(){
 		return { autoheight:true,
@@ -36,17 +38,37 @@ export default class EvaluasiView extends JetView{
 					]
 				},
 				{
-					"url": "",
+					"id":"tbl_penilaian",
+					scheme:{
+						$init:function(row){
+							row.elemen_id = (row.elemen || "") && row.elemen.penjelasan
+							row.subelemen_id = (row.subelemen || "") && row.subelemen.bagian
+							row.subelemen_id_name = (row.subelemen || "") && row.subelemen.penjelasan
+							row.score_id = (row.score || "") && row.score.name							
+						}
+					},
 					"columns": [
-						{ "id": "perusahaan_id", "header": "Nama Perusahaan", "fillspace": false, "sort": "string", "hidden": false },
-						{ "id": "subelemen_id", "header": "Elemen", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "perusahaan_id", "header": "Nama Perusahaan", "fillspace": false, "sort": "string", "hidden": true },
+						{ "id": "elemen_id", "header": "Elemen", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "subelemen_id", "header": "", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "subelemen_id_name", "header": "Sub Elemen", "sort": "string", "fillspace": false, "hidden": false },
 						{ "id": "tgl_masuk", "header": "Tgl Masuk", "sort": "string", "fillspace": false, "hidden": false },
 						{ "id": "tgl_target", "header": "Tgl Target", "sort": "string", "fillspace": false, "hidden": false },
 						{ "id": "tgl_selesai", "header": "Tgl Selesai", "sort": "string", "fillspace": false, "hidden": false },
 						{ "id": "kesimpulan", "header": "Kesimpulan", "sort": "string", "fillspace": true, "hidden": false },
-						{ "id": "nilai_id", "header": "Nilai", "width": 50, "fillspace": false, "hidden": false }
+						{ "id": "score_id", "header": "Nilai", "fillspace": false, "hidden": false }
 					],
-					"view": "datatable"
+					"view": "datatable",
+					ready:function(){ 
+						this.adjustColumn("elemen_id"); 
+						this.adjustColumn("subelemen_id"); 
+						this.adjustColumn("subelemen_id_name"); 
+						this.adjustColumn("tgl_masuk"); 
+						this.adjustColumn("tgl_target"); 
+						this.adjustColumn("tgl_selesai"); 
+						this.adjustColumn("kesimpulan"); 
+						this.adjustColumn("score_id");
+					},
 				},
 				{
 					"css": "webix_dark",
@@ -73,6 +95,7 @@ export default class EvaluasiView extends JetView{
 	}
     urlChange(view, url){
         var id = url[0].params.id;
-        $$("form_perusahaan").load("http://localhost:8000/perusahaan/show/"+id);
+		$$("form_perusahaan").load(routeUrl+"/perusahaan/show/"+id);
+		$$("tbl_penilaian").load(routeUrl+"evaluasi/show/"+id);
     }
 }
