@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Perusahaan extends Model {
+class Elemen extends Model {
 
-    protected $table = 'perusahaan';
+    protected $table = 'elemen';
 
-    protected $fillable = ['nama','alamat','telepon'];
+    protected $fillable = ['*'];
 
     public function evaluasi()
     {

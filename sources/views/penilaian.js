@@ -1,5 +1,8 @@
 import {JetView} from "webix-jet";
 
+
+var routeUrl = window.location.protocol +"//"+ window.location.hostname+window.location.pathname;
+
 var savePenilaian = webix.proxy("rest", "http://localhost:8000/penilaian/save", {
     meta: "csrf_field()", //some param
     save:function(view, params){
@@ -68,47 +71,37 @@ export default class EvaluasiView extends JetView{
 					]
 				},
 				{
-					"id": "tbl_penilaian",
+					"id":"tbl_penilaian",
+					scheme:{
+						$init:function(row){
+							row.elemen_id = (row.elemen || "") && row.elemen.penjelasan
+							row.subelemen_id = (row.subelemen || "") && row.subelemen.bagian
+							row.subelemen_id_name = (row.subelemen || "") && row.subelemen.penjelasan
+							row.score_id = (row.score || "") && row.score.name							
+						}
+					},
 					"columns": [
-						{id:"id", hidden:true},
 						{ "id": "perusahaan_id", "header": "Nama Perusahaan", "fillspace": false, "sort": "string", "hidden": true },
-						{ "id": "subelemen_id", "header": "Elemen", "sort": "string", "fillspace": false, "hidden": false, editor:"text" },
-						{ "id": "tgl_masuk", "header": "Tgl Masuk", "sort": "string", "fillspace": false, "hidden": false, editor:"date" },
-						{ "id": "tgl_target", "header": "Tgl Target", "sort": "string", "fillspace": false, "hidden": false, editor:"date" },
-						{ "id": "tgl_selesai", "header": "Tgl Selesai", "sort": "string", "fillspace": false, "hidden": false, editor:"date" },
-						{ "id": "kesimpulan", "header": "Kesimpulan", "sort": "string", "fillspace": true, "hidden": false, editor:"text" },
-						{ "id": "nilai_id", "header": "Nilai", "width": 50, "fillspace": false, "hidden": false, editor:"text" },
-						{ header:"", template:"{common.trashIcon()}", width:40}
+						{ "id": "elemen_id", "header": "Elemen", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "subelemen_id", "header": "", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "subelemen_id_name", "header": "Sub Elemen", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "tgl_masuk", "header": "Tgl Masuk", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "tgl_target", "header": "Tgl Target", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "tgl_selesai", "header": "Tgl Selesai", "sort": "string", "fillspace": false, "hidden": false },
+						{ "id": "kesimpulan", "header": "Kesimpulan", "sort": "string", "fillspace": true, "hidden": false },
+						{ "id": "score_id", "header": "Nilai", "fillspace": false, "hidden": false }
 					],
 					"view": "datatable",
-					select:true,
-                    editable:true,
-                	editaction:"dblclick",
-                    save: savePenilaian,
-                    onClick:{
-                        "wxi-trash":function(event, id, node){
-                            webix.confirm("Anda yakin akan menghapus data ?").then(function(result){
-                            webix.ajax().post("http://localhost:8000/penilaian/delete/"+id).then(() => webix.message("Data dihapus"));
-							$$("tbl_penilaian").remove(id);							
-							$$("tbl_penilaian_all").load("http://localhost:8000/penilaian_baru");
-                            });
-                        }
-                    },
-                    on:{
-                        "onAfterSelect":function(id){
-                        	$$("btn_add_bukti").enable();     
-                        	$$("tbl_bukti").clearAll();                         
-                            $$("tbl_bukti").load("http://localhost:8000/bukti/show/"+id);                                             
-                            
-                        }
-                    }
-				},
-
-				{
-					id:'tbl_penilaian_all',
-					"view": "datatable",
-					columns:[{id:"id"}],
-					hidden:true,
+					ready:function(){ 
+						this.adjustColumn("elemen_id"); 
+						this.adjustColumn("subelemen_id"); 
+						this.adjustColumn("subelemen_id_name"); 
+						this.adjustColumn("tgl_masuk"); 
+						this.adjustColumn("tgl_target"); 
+						this.adjustColumn("tgl_selesai"); 
+						this.adjustColumn("kesimpulan"); 
+						this.adjustColumn("score_id");
+					},
 				},
 
 				{
@@ -176,9 +169,7 @@ export default class EvaluasiView extends JetView{
 	}
     urlChange(view, url){
         var id = url[0].params.id;
-        $$("form_perusahaan").load("http://localhost:8000/perusahaan/show/"+id);
-        $$("tbl_penilaian").load("http://localhost:8000/penilaian/show/"+id);
-        $$("tbl_penilaian_all").load("http://localhost:8000/penilaian_baru");
-        $$("tbl_bukti_all").load("http://localhost:8000/bukti_baru");
+		$$("form_perusahaan").load(routeUrl+"/perusahaan/show/"+id);
+		$$("tbl_penilaian").load(routeUrl+"evaluasi/show/"+id);
     }
 }

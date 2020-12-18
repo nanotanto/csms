@@ -2,6 +2,8 @@ import {JetView} from "webix-jet";
 import TambahWinView from "views/tambahWin";
 //import { $$ } from "webix";
 
+var routeUrl = window.location.protocol +"//"+ window.location.hostname+window.location.pathname;
+
 export default class EvaluasiView extends JetView{
 	config(){
 		return {
@@ -38,9 +40,9 @@ export default class EvaluasiView extends JetView{
 							return "<div class='webix_el_button'><button class='penilaian'> Penilaian Elemen</button></div>";
 							}
 						},
-						{id:"trash", header:"", template:"{common.trashIcon()}", width:40}
+						{ header:"", template:"{common.trashIcon()}", width:40}
 					],
-					"url": "http://localhost:8000/perusahaan",
+					"url": routeUrl+"perusahaan",
 					select:true,
 					onClick:{
 						penilaian:function(ev, id, html){
@@ -48,10 +50,10 @@ export default class EvaluasiView extends JetView{
 						},
 						"wxi-trash":function(event, id, node){
                             webix.confirm("Anda yakin akan menghapus data ?").then(function(result){
-                                webix.ajax().post("http://localhost:8000/perusahaan/delete/"+id).then(() => webix.message("Data sudah dihapus"));
+                                webix.ajax().post("perusahaan/delete/"+id).then(() => webix.message("Data sudah dihapus"));
                                 $$("tbl_perusahaan").remove(id);
                             });
-                        },
+                        }  
 					  },
 					on:{
 						"onAfterSelect":function(id){
@@ -82,6 +84,6 @@ export default class EvaluasiView extends JetView{
 	}
     init(){
 		this.win = this.ui(TambahWinView);
-		//$$("tbl_perusahaan").load("http://localhost:8000/perusahaan");
+		//$$("tbl_perusahaan").load("/perusahaan");
     }
 }

@@ -1,5 +1,7 @@
 import {JetView} from "webix-jet";
 
+var routeUrl = window.location.protocol +"//"+ window.location.hostname+window.location.pathname;
+
 export default class TambahView extends JetView{
 	config(){
 		return {
@@ -18,21 +20,24 @@ export default class TambahView extends JetView{
 				},
 				{ id:"form_pt_baru", paddingX:20, paddingY:20, "autoheight": false, "view": "form", "type": "wide", "elementsConfig": { "required": true, "labelPosition": "top" },
 					"rows": [
-						{ id:"id", name:"id", hidden:true},
-						{ name:"nama", "view": "text", "label": "Nama Perusahaan", validate:"isNotEmpty"},
-						{ name:"alamat", "view": "text", "label": "Alamat", validate:"isNotEmpty"},
-						{ name:"telepon", "label": "Telepon/ Fax", "view": "text", validate:"isNotEmpty"},
+						{ id:"id", name:"id", "label": "ID", "view": "text", "labelPosition": "top", hidden:true },
+                        { name:"nama", "view": "text", "label": "Nama Perusahaan"},
+						{ name:"alamat", "view": "text", "label": "Alamat"},
+						{ name:"telepon", "label": "Telepon/ Fax", "view": "text"},
 						{
 							cols:[
-								{ "view": "button", "css": "webix_primary", "label": "Simpan", click:function(){																			
+								{ id:"btn_simpan_","view": "button", "css": "webix_primary", "label": "Simpan", click:function(){																			
 									var form = this.getFormView();
 									if (form.validate()){
 										var data = form.getValues();
-										webix.ajax().post("http://localhost:8000/perusahaan/save", data).then(() => webix.message("Kontraktor baru sudah di tambah"));
+										webix.ajax().post(routeUrl+"perusahaan/save", data).then(() => {
+											webix.message("Kontraktor baru sudah di tambah")
+											form.load(routeUrl+"perusahaan/newData")
+										});
 										//form.clear();
-										this.disable();
-										$$("btn_lanjut").enable();
-										form.load("http://localhost:8000/perusahaan_baru");
+										$$("btn_simpan_").disable();
+										$$("btn_lanjut_").enable();
+
 									}                                    
 									else
 										webix.message({ type:"error", text:"Form data is invalid" });
@@ -52,10 +57,10 @@ export default class TambahView extends JetView{
 					"view": "toolbar",
 					"cols": [
 						{ "view": "label", "label": "" },
-						{ id:"btn_lanjut", disabled:true, "css": "webix_danger", "view": "button", label:"Lanjut Penilaian Elemen CSMS", width:300,
-						click: () => {
-							var id =  $$('form_pt_baru').getValues().id;
-							this.app.show("/top/penilaian?id="+id);
+						{ id:"btn_lanjut_","css": "webix_danger", "view": "button", disabled:true, label:"Lanjut Penilaian Elemen CSMS", width:300,
+						click:()=>{
+							var id = $$("id").getValue();
+							this.app.show("/top/penilaian?id="+id)
 						}
 					}
 					]

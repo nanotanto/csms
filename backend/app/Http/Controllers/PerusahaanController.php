@@ -32,6 +32,11 @@ class PerusahaanController extends Controller
         $data->save();
     }
 
+    public function newData(){
+        $data = Perusahaan::latest()->first();
+        return response()->json($data);
+    }
+
     public function delete(Request $request, $id){
         $data = Perusahaan::find($id);
         $data->delete();
