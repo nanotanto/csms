@@ -1,5 +1,6 @@
 import {JetView} from "webix-jet";
 import TambahWinView from "views/tambahWin";
+//import { $$ } from "webix";
 
 export default class EvaluasiView extends JetView{
 	config(){
@@ -14,6 +15,14 @@ export default class EvaluasiView extends JetView{
 							click:() => this.app.show("/top/tambah")
 							//click:() => this.win.showWindow();
 							
+						},
+						{ id:"btn_edit","view": "button", "label": "Edit Kontraktor", disabled:true, "autowidth": true,
+							click:() => {
+								var id = $$("tbl_perusahaan").getSelectedId();
+								this.app.show("/top/edit?id="+id);
+							}
+							
+														
 						}
 					]
 				},
@@ -28,17 +37,25 @@ export default class EvaluasiView extends JetView{
 							template:function(obj){ 
 							return "<div class='webix_el_button'><button class='penilaian'> Penilaian Elemen</button></div>";
 							}
-						}
+						},
+						{id:"trash", header:"", template:"{common.trashIcon()}", width:40}
 					],
 					"url": "http://localhost:8000/perusahaan",
 					select:true,
 					onClick:{
 						penilaian:function(ev, id, html){
 						 	this.$scope.show("/top/penilaian?id="+id);
-						}
+						},
+						"wxi-trash":function(event, id, node){
+                            webix.confirm("Anda yakin akan menghapus data ?").then(function(result){
+                                webix.ajax().post("http://localhost:8000/perusahaan/delete/"+id).then(() => webix.message("Data sudah dihapus"));
+                                $$("tbl_perusahaan").remove(id);
+                            });
+                        },
 					  },
 					on:{
 						"onAfterSelect":function(id){
+							$$("btn_edit").enable();
 							// var item = this.getSelectedItem();
 							// var pt = item.nama;
 							// $$('btn_penilaian').enable();

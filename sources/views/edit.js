@@ -16,7 +16,7 @@ export default class TambahView extends JetView{
 					}
 					]
 				},
-				{ id:"form_pt_baru", paddingX:20, paddingY:20, "autoheight": false, "view": "form", "type": "wide", "elementsConfig": { "required": true, "labelPosition": "top" },
+				{ id:"form_pt",paddingX:20, paddingY:20, "autoheight": false, "view": "form", "type": "wide", "elementsConfig": { "required": true, "labelPosition": "top" },
 					"rows": [
 						{ id:"id", name:"id", hidden:true},
 						{ name:"nama", "view": "text", "label": "Nama Perusahaan", validate:"isNotEmpty"},
@@ -27,12 +27,10 @@ export default class TambahView extends JetView{
 								{ "view": "button", "css": "webix_primary", "label": "Simpan", click:function(){																			
 									var form = this.getFormView();
 									if (form.validate()){
+										var id =  $$('form_pt').getValues().id;
 										var data = form.getValues();
-										webix.ajax().post("http://localhost:8000/perusahaan/save", data).then(() => webix.message("Kontraktor baru sudah di tambah"));
+										webix.ajax().put("http://localhost:8000/perusahaan/save/"+id, data).then(() => webix.message("Kontraktor sudah di edit"));
 										//form.clear();
-										this.disable();
-										$$("btn_lanjut").enable();
-										form.load("http://localhost:8000/perusahaan_baru");
 									}                                    
 									else
 										webix.message({ type:"error", text:"Form data is invalid" });
@@ -52,10 +50,9 @@ export default class TambahView extends JetView{
 					"view": "toolbar",
 					"cols": [
 						{ "view": "label", "label": "" },
-						{ id:"btn_lanjut", disabled:true, "css": "webix_danger", "view": "button", label:"Lanjut Penilaian Elemen CSMS", width:300,
-						click: () => {
-							var id =  $$('form_pt_baru').getValues().id;
-							this.app.show("/top/penilaian?id="+id);
+						{ "css": "webix_danger", "view": "button", label:"Lanjut Penilaian Elemen CSMS", width:300,
+						click:()=>{
+							this.app.show("/top/penilaian")
 						}
 					}
 					]
@@ -63,4 +60,8 @@ export default class TambahView extends JetView{
 			]
 		}
 	}
+    urlChange(view, url){
+        var id = url[0].params.id;
+        $$("form_pt").load("http://localhost:8000/perusahaan/show/"+id);
+    }
 }

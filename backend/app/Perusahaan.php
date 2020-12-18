@@ -9,5 +9,7 @@ class Perusahaan extends Model {
     protected $table = 'perusahaan';
 
     protected $fillable = ['nama','alamat','telepon'];
+
+    public $timestamps = false;
     
 }
